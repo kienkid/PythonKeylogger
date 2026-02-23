@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
 
-HOST = "0.0.0.0"
+HOST = "192.168.1.28"
 PORT = 8000
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
