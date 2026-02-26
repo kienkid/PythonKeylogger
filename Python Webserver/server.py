@@ -7,7 +7,7 @@ PORT = 8000
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 INDEX_FILE = os.path.join(BASE_DIR, "index.html")
-DATA_FILE = os.path.join(BASE_DIR, "data.txt")
+
 
 
 class SimpleHandler(BaseHTTPRequestHandler):
@@ -40,7 +40,8 @@ class SimpleHandler(BaseHTTPRequestHandler):
             data = json.loads(body)
 
             # Validate format {"key": "value"}
-            if isinstance(data, dict) and "key" in data:
+            if isinstance(data, dict) and "key" and "host" in data:
+                DATA_FILE = os.path.join(BASE_DIR, f"{data["host"]}.txt")
                 with open(DATA_FILE, "a", encoding="utf-8") as f:
                     f.write(json.dumps(data) + "\n")
 
